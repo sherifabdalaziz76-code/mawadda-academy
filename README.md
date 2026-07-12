@@ -192,4 +192,5 @@ Legacy `admin` authorization checks were removed. Existing legacy users are migr
 - Student profile and photo are edited from the same central page through the student profile editor.
 - Existing `developer` records are migrated automatically to `admin` for backward compatibility.
 #   m a w a d d a - a c a d e m y  
+ #   m a w a d d a - a c a d e m y -  
  
