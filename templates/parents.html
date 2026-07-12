@@ -1,0 +1,4 @@
+
+{% extends "base.html" %}{% block content %}<div class="page-head"><h1>أولياء الأمور</h1><a class="btn" href="{{url_for('parent_new')}}">+ ولي أمر</a></div>
+<div class="panel"><table><tr><th>الكود</th><th>الاسم</th><th>الهاتف</th><th>واتساب</th><th>البريد</th><th>الدولة</th><th>الأبناء</th><th>الحالة</th><th>إجراء</th></tr>
+{% for p in parents %}<tr><td>{{p.parent_code or "-"}}</td><td>{{p.user.full_name}}</td><td>{{p.user.phone or '-'}}</td><td>{{p.user.whatsapp or '-'}}</td><td>{{p.user.email}}</td><td>{{p.country}}</td><td>{{p.students|length}}</td><td>{% if p.user.is_active %}نشط{% else %}موقوف{% endif %}</td><td><form method="post" action="{{url_for('toggle_user_active',user_id=p.user.id)}}"><button class="btn small {% if p.user.is_active %}danger-btn{% endif %}">{% if p.user.is_active %}تعطيل{% else %}تفعيل{% endif %}</button></form></td></tr>{% endfor %}</table></div>{% endblock %}

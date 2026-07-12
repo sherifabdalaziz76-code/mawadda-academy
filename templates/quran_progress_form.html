@@ -1,0 +1,8 @@
+
+{% extends "base.html" %}{% block content %}<div class="page-head"><h1>تسجيل تقدم قرآني — {{student.full_name}}</h1></div>
+<form method="post" class="form-grid panel">
+<label>التاريخ<input type="date" name="progress_date" required></label><label>الحصة<select name="session_id"><option value="">بدون ربط</option>{% for s in sessions %}<option value="{{s.id}}">{{s.session_date}} — {{s.circle.name}}</option>{% endfor %}</select></label>
+<label>السورة<input name="surah_name" required></label><label>النوع<select name="progress_type"><option>حفظ جديد</option><option>مراجعة</option><option>تثبيت</option><option>اختبار</option></select></label>
+<label>من آية<input type="number" name="from_ayah" min="1"></label><label>إلى آية<input type="number" name="to_ayah" min="1"></label>
+<label>أخطاء الحفظ<input type="number" name="memorization_errors" min="0" value="0"></label><label>أخطاء التجويد<input type="number" name="tajweed_errors" min="0" value="0"></label>
+<label class="full">ملاحظات<textarea name="notes"></textarea></label><button class="btn">حفظ</button></form>{% endblock %}

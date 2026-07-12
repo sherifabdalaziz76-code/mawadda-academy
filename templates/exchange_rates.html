@@ -1,0 +1,5 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><div><h1>أسعار التحويل إلى الجنيه المصري</h1><p>المعلم يُحاسب بالجنيه حتى لو كان الطالب يدفع بعملة أخرى.</p></div></div>
+<form method="post" class="form-grid panel"><label>العملة<input name="currency" placeholder="USD" required></label><label>1 وحدة = كام EGP<input type="number" step="0.0001" name="rate_to_egp" required></label><button class="btn">حفظ السعر</button></form>
+<div class="panel"><table><tr><th>العملة</th><th>سعرها بالجنيه</th><th>آخر تحديث</th></tr>{% for r in rates %}<tr><td>{{r.currency}}</td><td>{{r.rate_to_egp}}</td><td>{{r.updated_at}}</td></tr>{% endfor %}</table></div>{% endblock %}

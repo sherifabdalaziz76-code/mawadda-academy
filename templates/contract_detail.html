@@ -1,0 +1,20 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><div><h1>{{contract.contract_no}}</h1><p>{{contract.student.full_name}} — {{contract.service_name}}</p></div>
+{% if current_user.role in ['developer','manager','accountant'] %}<a class="btn secondary" href="{{url_for('contract_schedule_edit',contract_id=contract.id)}}">تعديل الجدول</a> <a class="btn secondary" href="{{url_for('contract_freeze',contract_id=contract.id)}}">تجميد الاشتراك</a> <a class="btn secondary" href="{{url_for('whatsapp_contract',contract_id=contract.id)}}">إرسال واتساب</a> <a class="btn" href="{{url_for('payment_new',contract_id=contract.id)}}">+ تسجيل دفعة</a>{% endif %}</div>
+<div class="cards">
+<div class="stat"><b>{{'%.2f'|format(contract.net_amount)}}</b><span>قيمة العقد {{contract.currency}}</span></div>
+<div class="stat"><b>{{'%.2f'|format(contract.paid_amount)}}</b><span>المدفوع</span></div>
+<div class="stat"><b>{{'%.2f'|format(contract.balance)}}</b><span>المتبقي</span></div>
+<div class="stat"><b>{{contract.total_sessions}}</b><span>عدد الحصص</span></div>
+<div class="stat"><b>{{contract.session_minutes}}</b><span>دقيقة للحصة</span></div><div class="stat"><b>{{contract.weekly_sessions}}</b><span>حصة أسبوعيًا</span></div>
+</div>
+<div class="panel"><h2>بيانات العقد</h2><table>
+<tr><th>البداية</th><td>{{contract.start_date}}</td><th>النهاية</th><td>{{contract.end_date or '-'}}</td></tr>
+<tr><th>المعلم</th><td>{{contract.teacher.user.full_name if contract.teacher else '-'}}</td>{% if current_user.role in ['developer','manager','accountant'] %}<th>مستحق المعلم/الحصة</th><td>{% if contract.teacher_rate_mode=='fixed_egp' %}{{contract.teacher_rate_per_session}} EGP{% else %}{{contract.teacher_rate_per_session}} {{contract.teacher_rate_currency}} × {{contract.exchange_rate_to_egp}} = {{(contract.teacher_rate_per_session * contract.exchange_rate_to_egp)|round(2)}} EGP{% endif %}</td>{% else %}<th>الحالة</th><td>{{contract.status}}</td>{% endif %}</tr>
+<tr><th>الحالة</th><td>{{contract.status}}</td><th>الملاحظات</th><td>{{contract.notes or '-'}}</td></tr>
+</table></div>
+<div class="panel"><h2>الجدول الأسبوعي</h2><table><tr><th>اليوم</th><th>الوقت</th><th>المدة</th></tr>{% for slot in contract.schedule_slots if slot.active %}<tr><td>{{slot.weekday_name}}</td><td>{{slot.start_time}}</td><td>{{slot.duration_minutes}} دقيقة</td></tr>{% else %}<tr><td colspan="3">لم يُحدد جدول.</td></tr>{% endfor %}</table></div>
+<div class="panel"><h2>سجل المدفوعات</h2><table><tr><th>الإيصال</th><th>التاريخ</th><th>المبلغ</th><th>الطريقة</th><th>المرجع</th></tr>
+{% for p in contract.payments %}<tr><td>{{p.receipt_no}}</td><td>{{p.payment_date}}</td><td>{{p.amount}} {{p.currency}}</td><td>{{p.payment_method}}</td><td>{{p.reference_no or '-'}}</td></tr>
+{% else %}<tr><td colspan="5">لا توجد دفعات حتى الآن.</td></tr>{% endfor %}</table></div>{% endblock %}

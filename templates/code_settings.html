@@ -1,0 +1,9 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><div><h1>إعدادات الأكواد التلقائية</h1><p>غيّر البادئة أو الرقم القادم من الشاشة بدون تعديل الكود البرمجي.</p></div></div>
+<form method="post" class="panel">
+<table><tr><th>النوع</th><th>البادئة</th><th>الرقم القادم</th><th>عدد الخانات</th><th>مثال</th></tr>
+{% for entity,label in [('student','الطالب'),('teacher','المعلم'),('parent','ولي الأمر')] %}
+{% set s=sequences[entity] %}
+<tr><td>{{label}}</td><td><input name="{{entity}}_prefix" value="{{s.prefix}}" required></td><td><input type="number" name="{{entity}}_next_number" value="{{s.next_number}}" required></td><td><input type="number" name="{{entity}}_padding" value="{{s.padding}}" min="1" max="8"></td><td>{{s.prefix}}-{{("%0*d" % (s.padding,s.next_number))}}</td></tr>
+{% endfor %}</table><button class="btn">حفظ الإعدادات</button></form>{% endblock %}

@@ -1,0 +1,15 @@
+
+{% extends "base.html" %}{% block title %}تسجيل الدخول{% endblock %}
+{% block content %}
+<div class="login-card">
+  <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
+  <h1>أكاديمية المودة</h1><p>تعلّم اليوم لنصنع غدًا أفضل</p>
+  <form method="post">
+    <label>البريد الإلكتروني</label><input type="email" name="email" required>
+    <label>كلمة المرور</label><input type="password" name="password" required>
+    <button>تسجيل الدخول</button>
+  </form>
+  <p><a href="{{ url_for('forgot_password') }}">نسيت كلمة المرور؟</a></p>
+  <small>استخدم بيانات الحساب التي أنشأها مسؤول النظام.</small>
+</div>
+{% endblock %}

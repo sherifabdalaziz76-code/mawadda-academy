@@ -1,0 +1,22 @@
+
+{% extends "base.html" %}{% block content %}<div class="page-head"><h1>إنشاء عقد اشتراك</h1></div>
+<form method="post" class="form-grid panel">
+<label>الطالب<select name="student_id" required>{% for s in students %}<option value="{{s.id}}">{{s.full_name}}</option>{% endfor %}</select></label>
+<label>المعلم<select name="teacher_id"><option value="">بدون تحديد</option>{% for t in teachers %}<option value="{{t.id}}">{{t.user.full_name}}</option>{% endfor %}</select></label>
+<label>اسم الخدمة/الباقة<input name="service_name" placeholder="تحفيظ فردي - 8 حصص" required></label>
+<label>العملة<select name="currency"><option>EGP</option><option>USD</option><option>SAR</option><option>AED</option><option>KWD</option><option>QAR</option><option>EUR</option><option>GBP</option></select></label>
+<label>تاريخ البداية<input type="date" name="start_date" required></label><label>تاريخ النهاية<input type="date" name="end_date"></label>
+<label>إجمالي حصص الاتفاق<input type="number" name="total_sessions" min="1" value="8" required></label><label>عدد الحصص أسبوعيًا<input id="weekly_sessions" type="number" name="weekly_sessions" min="1" max="7" value="2" required></label><label>دقائق الحصة<input type="number" name="session_minutes" min="10" value="30"></label>
+<label>السعر المتفق عليه<input type="number" name="contract_price" step="0.01" min="0" required></label><label>الخصم<input type="number" name="discount_amount" step="0.01" min="0" value="0"></label>
+<label>طريقة حساب مستحق المعلم<select name="teacher_rate_mode"><option value="fixed_egp">مبلغ ثابت بالجنيه المصري</option><option value="convert_to_egp">تحويل من عملة العقد إلى الجنيه</option></select></label>
+<label>قيمة مستحق المعلم لكل حصة<input type="number" name="teacher_rate_per_session" step="0.01" min="0" value="0"></label>
+<label>عملة قيمة مستحق المعلم<select name="teacher_rate_currency"><option>EGP</option><option>USD</option><option>SAR</option><option>AED</option><option>KWD</option><option>QAR</option><option>EUR</option><option>GBP</option></select></label>
+<label>سعر التحويل إلى EGP<input type="number" name="exchange_rate_to_egp" step="0.0001" min="0.0001" value="1"></label>
+<label>الحالة<select name="status"><option>نشط</option><option>معلق</option><option>منتهي</option><option>ملغي</option></select></label>
+<div class="full panel"><h3>الجدول الأسبوعي</h3><p>اختر يوم ووقت لكل حصة أسبوعية.</p><div id="scheduleRows"></div></div>
+<label class="full">ملاحظات<textarea name="notes"></textarea></label><button class="btn">حفظ العقد</button></form>
+<script>
+const days=['الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت','الأحد'];
+function drawSchedule(){const n=Math.max(1,Math.min(7,parseInt(document.getElementById('weekly_sessions').value||1)));const box=document.getElementById('scheduleRows');const old=[...box.querySelectorAll('.schedule-row')].map(r=>({d:r.querySelector('select')?.value,t:r.querySelector('input')?.value}));box.innerHTML='';for(let i=0;i<n;i++){const row=document.createElement('div');row.className='schedule-row';row.style='display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0';row.innerHTML=`<label>اليوم ${i+1}<select name="schedule_weekday" required>${days.map((d,x)=>`<option value="${x}" ${old[i]?.d==x?'selected':''}>${d}</option>`).join('')}</select></label><label>الوقت<input type="time" name="schedule_time" value="${old[i]?.t||''}" required></label>`;box.appendChild(row)}}
+document.getElementById('weekly_sessions').addEventListener('input',drawSchedule);drawSchedule();
+</script>{% endblock %}

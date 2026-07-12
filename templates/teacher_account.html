@@ -1,0 +1,14 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><div><h1>حساب المعلم: {{teacher.user.full_name}}</h1><p>الكود {{teacher.employee_code}} — جميع المستحقات والمدفوعات</p></div>
+{% if current_user.role in ['developer','manager','accountant'] %}<a class="btn" href="{{url_for('teacher_payment_new',teacher_id=teacher.id)}}">+ تسجيل دفعة</a>{% endif %}</div>
+<div class="cards">
+{% for cur, amount in earned_by_currency.items() %}<div class="stat"><b>{{'%.2f'|format(amount)}}</b><span>إجمالي المستحق {{cur}}</span></div>{% endfor %}
+{% for cur, amount in paid_by_currency.items() %}<div class="stat"><b>{{'%.2f'|format(amount)}}</b><span>إجمالي المدفوع {{cur}}</span></div>{% endfor %}
+{% for cur, amount in balances.items() %}<div class="stat"><b>{{'%.2f'|format(amount)}}</b><span>المتبقي {{cur}}</span></div>{% endfor %}
+</div>
+<div class="panel"><h2>استحقاقات الحصص</h2><table><tr><th>التاريخ</th><th>الطالب</th><th>الحصة</th><th>المبلغ</th><th>الحالة</th></tr>
+{% for e in teacher.earnings|sort(attribute='earning_date', reverse=true) %}<tr><td>{{e.earning_date}}</td><td>{{e.student.full_name if e.student else '-'}}</td><td>{{e.session.circle.name if e.session else '-'}}</td><td>{{e.amount}} {{e.currency}}</td><td>{{e.status}}</td></tr>{% else %}<tr><td colspan="5">لا توجد استحقاقات.</td></tr>{% endfor %}</table></div>
+<div class="panel"><h2>الدفعات التي استلمها</h2><table><tr><th>الرقم</th><th>تاريخ الدفع</th><th>عن الفترة حتى</th><th>المبلغ</th><th>الطريقة</th><th>المرجع</th></tr>
+{% for p in teacher.payments_received|sort(attribute='payment_date', reverse=true) %}<tr><td>{{p.payment_no}}</td><td>{{p.payment_date}}</td><td>{{p.period_to or '-'}}</td><td>{{p.amount}} {{p.currency}}</td><td>{{p.payment_method}}</td><td>{{p.reference_no or '-'}}</td></tr>{% else %}<tr><td colspan="6">لا توجد دفعات.</td></tr>{% endfor %}</table></div>
+{% endblock %}

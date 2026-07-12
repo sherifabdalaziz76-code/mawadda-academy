@@ -1,0 +1,3 @@
+
+{% extends "base.html" %}{% block content %}<div class="page-head"><h1>ربط طالب بحلقة</h1></div>
+<form method="post" class="form-grid panel"><label>الطالب<select name="student_id">{% for s in students %}<option value="{{s.id}}">{{s.full_name}}</option>{% endfor %}</select></label><label>الحلقة<select name="circle_id">{% for c in circles %}<option value="{{c.id}}">{{c.name}}</option>{% endfor %}</select></label><label>تاريخ البداية<input type="date" name="start_date"></label><button class="btn">حفظ</button></form>{% endblock %}

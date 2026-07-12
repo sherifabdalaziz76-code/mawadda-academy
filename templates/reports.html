@@ -1,0 +1,5 @@
+
+{% extends "base.html" %}{% block content %}<div class="page-head"><div><h1>التقارير</h1><p>تقرير مالي للفترة المحددة</p></div></div>
+<form method="get" class="form-grid panel"><label>من<input type="date" name="start" value="{{start}}"></label><label>إلى<input type="date" name="end" value="{{end}}"></label><button class="btn">تحديث التقرير</button></form>
+<div class="cards"><div class="stat"><b>{{income}}</b><span>إيرادات</span></div><div class="stat"><b>{{expense}}</b><span>مصروفات</span></div><div class="stat"><b>{{net}}</b><span>صافي</span></div><div class="stat"><b>{{receivables}}</b><span>مبالغ مستحقة من أولياء الأمور</span></div><div class="stat"><b>{{teacher_due}}</b><span>مستحقات معلمين</span></div></div>
+<div class="panel"><h2>تفاصيل الحركات</h2><table><tr><th>التاريخ</th><th>الخزنة</th><th>النوع</th><th>القيمة</th><th>الوصف</th></tr>{% for t in transactions %}<tr><td>{{t.tx_date}}</td><td>{{t.cashbox.name}}</td><td>{{'إيراد' if t.direction=='in' else 'مصروف'}}</td><td>{{t.amount}} {{t.currency}}</td><td>{{t.description or '-'}}</td></tr>{% endfor %}</table></div>{% endblock %}

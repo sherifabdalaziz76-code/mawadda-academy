@@ -1,0 +1,22 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{% block title %}أكاديمية المودة{% endblock %}</title><link rel="manifest" href="{{ url_for('manifest') }}"><meta name="theme-color" content="#102f5c"><link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"></head><body>
+{% if current_user.is_authenticated %}<header class="topbar"><div class="brand"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="شعار الأكاديمية"><div><strong>أكاديمية المودة</strong><small>نظام الإدارة والتقييم</small></div></div>
+{% if can('search.global') %}<form action="{{url_for('global_search')}}" method="get" style="display:flex;gap:6px"><input name="q" placeholder="بحث في نطاق صلاحياتك" style="min-width:180px"><button>بحث</button></form>{% endif %}
+<div class="userbox"><a href="{{url_for('notifications')}}">🔔 {{unread_notifications}}</a> | <a href="{{url_for('my_profile')}}">{{ current_user.full_name }} / تعديل البروفايل</a> | <a href="{{ url_for('logout') }}">خروج</a></div></header>
+<div class="layout"><aside class="sidebar"><a href="{{ url_for('dashboard') }}">لوحة التحكم</a>
+{% if can('students.view') %}<a href="{{ url_for('students') }}">الطلاب</a>{% endif %}
+{% if can('teachers.view') %}<a href="{{ url_for('teachers') }}">المعلمون</a>{% endif %}
+{% if current_user.role in ['admin','developer','manager'] %}<a href="{{url_for('parents')}}">أولياء الأمور</a>{% endif %}
+{% if can('sessions.view') %}<a href="{{url_for('circles')}}">الحلقات</a><a href="{{url_for('sessions')}}">الحصص والحضور</a>{% endif %}
+{% if can('contracts.view') %}<a href="{{url_for('contracts')}}">الاشتراكات</a>{% endif %}
+{% if current_user.role=='teacher' and can('teacher_finance.view') %}<a href="{{url_for('teacher_earnings')}}">مستحقاتي</a><a href="{{url_for('teacher_payrolls')}}">المدفوعات المستلمة</a>{% endif %}
+{% if current_user.role=='parent' %}<a href="{{url_for('teacher_evaluation_new')}}">تقييم المعلم</a><a href="{{url_for('complaints')}}">الشكاوى</a><a href="{{url_for('teacher_change_requests')}}">طلب تغيير المعلم</a>{% endif %}
+{% if can('finance.view') %}<a href="{{url_for('finance_dashboard')}}">الحسابات والخزائن</a>{% endif %}
+{% if can('reports.view') %}<a href="{{url_for('reports')}}">التقارير</a>{% endif %}
+{% if current_user.role in ['admin','developer','manager'] %}<a href="{{url_for('complaints')}}">إدارة الشكاوى</a><a href="{{url_for('teacher_change_requests')}}">طلبات تغيير المعلمين</a><a href="{{url_for('management_evaluation')}}">تقييم الإدارة</a><a href="{{url_for('evaluation_questions')}}">أسئلة التقييم</a><a href="{{url_for('code_settings')}}">إعدادات الأكواد</a><a href="{{url_for('exchange_rates')}}">أسعار العملات</a><a href="{{url_for('audit_logs')}}">سجل المراجعة</a><a href="{{url_for('background_jobs')}}">المهام الخلفية</a>{% endif %}
+{% if can('approvals.view') %}<a href="{{url_for('approvals')}}">طلبات الموافقة</a>{% endif %}
+{% if current_user.role in ['admin','developer','manager','accountant'] %}<a href="{{url_for('users_admin')}}">إدارة المستخدمين والبروفايلات</a>{% endif %}
+{% if current_user.role in ['admin','developer','manager','accountant'] %}<a href="{{url_for('journal_entries')}}">دفتر اليومية</a>{% endif %}
+{% if current_user.role in ['admin','developer'] %}<a href="{{url_for('permissions')}}">الصلاحيات</a><a href="{{url_for('email_settings')}}">إعدادات Gmail</a>{% endif %}
+</aside><main class="content">{% else %}<main class="auth-main">{% endif %}
+{% with messages=get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="alert {{category}}">{{message}}</div>{% endfor %}{% endwith %}{% block content %}{% endblock %}</main>{% if current_user.is_authenticated %}</div>{% endif %}
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/service-worker.js'));}</script></body></html>

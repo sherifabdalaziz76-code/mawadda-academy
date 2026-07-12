@@ -1,0 +1,12 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><div><h1>الحسابات والخزائن</h1><p>ملخص مالي للشهر الحالي</p></div><div><a class="btn secondary" href="{{url_for('cashboxes')}}">الخزائن</a> <a class="btn" href="{{url_for('finance_transaction_new')}}">+ حركة مالية</a></div></div>
+<div class="cards">
+<div class="stat"><b>{{income}}</b><span>إيرادات الشهر</span></div>
+<div class="stat"><b>{{expense}}</b><span>مصروفات الشهر</span></div>
+<div class="stat"><b>{{net}}</b><span>صافي الحركة</span></div>
+<div class="stat"><b>{{pending_teacher}}</b><span>مستحقات معلمين غير مدفوعة</span></div>
+</div>
+<div class="panel"><h2>الخزائن</h2><table><tr><th>الخزنة</th><th>العملة</th><th>الرصيد الافتتاحي</th><th>الرصيد الحالي</th></tr>
+{% for b in cashboxes %}<tr><td>{{b.name}}</td><td>{{b.currency}}</td><td>{{b.opening_balance}}</td><td>{{b.current_balance}}</td></tr>{% endfor %}</table>
+<a class="btn" href="{{url_for('finance_transactions')}}">عرض كل الحركات</a></div>{% endblock %}

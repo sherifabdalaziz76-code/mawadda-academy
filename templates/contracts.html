@@ -1,0 +1,7 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><div><h1>الاشتراكات والعقود</h1><p>عقود مرنة لكل طالب وأسعار مختلفة داخل مصر وخارجها</p></div>
+{% if current_user.role in ['developer','manager'] %}<a class="btn" href="{{url_for('contract_new')}}">+ عقد جديد</a>{% endif %}</div>
+<div class="panel"><table><tr><th>رقم العقد</th><th>الطالب</th><th>الخدمة</th><th>المدة</th><th>القيمة</th><th>المدفوع</th><th>المتبقي</th><th>الحالة</th></tr>
+{% for c in contracts %}<tr><td><a href="{{url_for('contract_detail',contract_id=c.id)}}">{{c.contract_no}}</a></td><td>{{c.student.full_name}}</td><td>{{c.service_name}}</td><td>{{c.start_date}} → {{c.end_date or '-'}}</td><td>{{'%.2f'|format(c.net_amount)}} {{c.currency}}</td><td>{{'%.2f'|format(c.paid_amount)}} {{c.currency}}</td><td>{{'%.2f'|format(c.balance)}} {{c.currency}}</td><td>{{c.status}}</td></tr>
+{% else %}<tr><td colspan="8">لا توجد عقود بعد.</td></tr>{% endfor %}</table></div>{% endblock %}

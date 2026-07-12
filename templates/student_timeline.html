@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<h1>السجل الزمني — {{student.full_name}}</h1><div class="timeline">{% for e in events %}<div class="timeline-item"><strong>{{e.title}}</strong><small>{{e.created_at}}</small><p>{{e.details or ''}}</p></div>{% else %}<p>لا توجد أحداث بعد.</p>{% endfor %}</div>{% endblock %}

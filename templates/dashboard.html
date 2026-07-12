@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block content %}<div class="panel"><h2>مجلس الإدارة</h2><div class="cards"><div class="card"><b>أفضل طالب</b><span>{{ best_student[0].full_name if best_student else "لا توجد تقييمات" }}</span><small>{{ best_student[1] if best_student else "-" }}/10</small></div><div class="card"><b>أفضل معلم</b><span>{{ best_teacher[0].user.full_name if best_teacher else "لا توجد تقييمات" }}</span><small>{{ best_teacher[1] if best_teacher else "-" }}/10</small></div></div></div>
+<div class="page-head"><div><h1>لوحة التحكم التنفيذية</h1><p>نظرة تشغيلية ومالية مباشرة على الأكاديمية</p></div></div>
+<div class="cards">
+  <div class="stat"><b>{{ stats.students }}</b><span>طالب نشط</span></div><div class="stat"><b>{{ stats.teachers }}</b><span>معلم</span></div>
+  <div class="stat"><b>{{ stats.sessions_today }}</b><span>حصص اليوم</span></div><div class="stat"><b>{{ stats.open_complaints }}</b><span>شكاوى مفتوحة</span></div>
+  <div class="stat"><b>{{ stats.receivables }}</b><span>مستحقات طلاب</span></div><div class="stat"><b>{{ stats.teacher_due }}</b><span>مستحقات معلمين</span></div>
+</div>
+<div class="panel"><h2>الإيرادات والمصروفات — آخر 6 أشهر</h2><canvas id="financeChart" height="110"></canvas></div>
+<div class="panel"><h2>آخر الحصص</h2><table><tr><th>التاريخ</th><th>الحلقة</th><th>المدة</th><th>الحالة</th></tr>{% for s in recent_sessions %}<tr><td>{{ s.session_date }}</td><td><a href="{{ url_for('session_detail', session_id=s.id) }}">{{ s.circle.name }}</a></td><td>{{ s.duration_minutes }} دقيقة</td><td>{{ s.status }}</td></tr>{% else %}<tr><td colspan="4">لا توجد حصص بعد.</td></tr>{% endfor %}</table></div>
+<script>
+const labels={{chart_months|tojson}}, incoming={{chart_income|tojson}}, outgoing={{chart_expenses|tojson}};
+const c=document.getElementById('financeChart'),x=c.getContext('2d'); function draw(){c.width=c.clientWidth*devicePixelRatio;c.height=220*devicePixelRatio;x.scale(devicePixelRatio,devicePixelRatio);const w=c.clientWidth,h=210,max=Math.max(1,...incoming,...outgoing),gap=w/(labels.length+1);x.font='12px sans-serif';x.textAlign='center';labels.forEach((l,i)=>{let px=gap*(i+1),a=(incoming[i]/max)*150,b=(outgoing[i]/max)*150;x.fillStyle='#1f7a5c';x.fillRect(px-22,h-a-28,18,a);x.fillStyle='#b74b4b';x.fillRect(px+4,h-b-28,18,b);x.fillStyle='#333';x.fillText(l,px,h-8)});x.textAlign='right';x.fillStyle='#1f7a5c';x.fillText('■ إيرادات',w-90,16);x.fillStyle='#b74b4b';x.fillText('■ مصروفات',w-10,16)} draw();
+</script>{% endblock %}

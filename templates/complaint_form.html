@@ -1,0 +1,4 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><h1>تقديم شكوى</h1></div>
+<form method="post" class="form-grid panel"><label>الطالب<select name="student_id">{% for s in students %}<option value="{{s.id}}">{{s.full_name}}</option>{% endfor %}</select></label><label>المعلم<select name="teacher_id">{% for t in teachers %}<option value="{{t.id}}">{{t.user.full_name}}</option>{% endfor %}</select></label><label>الأولوية<select name="priority"><option>عادية</option><option>مهمة</option><option>عاجلة</option></select></label><label class="full">الموضوع<input name="subject" required></label><label class="full">تفاصيل الشكوى<textarea name="details" required></textarea></label><button class="btn">إرسال للإدارة</button></form>{% endblock %}

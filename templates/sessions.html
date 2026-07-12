@@ -1,0 +1,4 @@
+
+{% extends "base.html" %}{% block content %}<div class="page-head"><h1>الحصص والحضور</h1>{% if current_user.role in ['developer','manager','teacher'] %}<a class="btn" href="{{url_for('session_new')}}">+ حصة جديدة</a>{% endif %}</div>
+<div class="panel"><table><tr><th>التاريخ</th><th>الحلقة</th><th>الوقت</th><th>المدة</th><th>الموضوع</th><th>الحالة</th></tr>
+{% for s in sessions %}<tr><td>{{s.session_date}}</td><td><a href="{{url_for('session_detail',session_id=s.id)}}">{{s.circle.name}}</a></td><td>{{s.start_time or '-'}}</td><td>{{s.duration_minutes}} دقيقة</td><td>{{s.topic or '-'}}</td><td>{{s.status}}</td></tr>{% endfor %}</table></div>{% endblock %}

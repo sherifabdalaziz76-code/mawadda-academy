@@ -1,0 +1,4 @@
+
+{% extends "base.html" %}{% block content %}<div class="page-head"><h1>مستحقات المعلمين</h1></div>
+<div class="panel"><table><tr><th>التاريخ</th><th>المعلم</th><th>الطالب</th><th>الحصة</th><th>المبلغ</th><th>الحالة</th></tr>
+{% for e in earnings %}<tr><td>{{e.earning_date}}</td><td>{{e.teacher.user.full_name}}</td><td>{{e.student.full_name if e.student else '-'}}</td><td>{{e.session.circle.name if e.session else '-'}}</td><td>{{e.amount}} {{e.currency}}</td><td>{{e.status}}</td></tr>{% else %}<tr><td colspan="6">لا توجد مستحقات.</td></tr>{% endfor %}</table></div>{% endblock %}

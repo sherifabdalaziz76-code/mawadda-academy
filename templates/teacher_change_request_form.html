@@ -1,0 +1,4 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><h1>طلب تغيير المعلم</h1></div>
+<form method="post" class="form-grid panel"><label>الطالب<select name="student_id">{% for s in students %}<option value="{{s.id}}">{{s.full_name}}</option>{% endfor %}</select></label><label>المعلم الحالي<select name="current_teacher_id">{% for t in teachers %}<option value="{{t.id}}">{{t.user.full_name}}</option>{% endfor %}</select></label><label class="full">سبب طلب التغيير<textarea name="reason" required></textarea></label><label class="full">الأوقات المناسبة<input name="preferred_times" placeholder="مثال: الأحد والثلاثاء بعد 7 مساءً"></label><button class="btn">إرسال الطلب</button></form>{% endblock %}

@@ -1,0 +1,4 @@
+
+{% extends "base.html" %}{% block content %}<div class="page-head"><h1>الحركات المالية</h1><a class="btn" href="{{url_for('finance_transaction_new')}}">+ حركة جديدة</a></div>
+<div class="panel"><table><tr><th>الرقم</th><th>التاريخ</th><th>الخزنة</th><th>النوع</th><th>القيمة</th><th>الوصف</th></tr>
+{% for t in transactions %}<tr><td>{{t.tx_no}}</td><td>{{t.tx_date}}</td><td>{{t.cashbox.name}}</td><td>{% if t.direction=='in' %}إيراد{% else %}مصروف{% endif %}</td><td>{{t.amount}} {{t.currency}}</td><td>{{t.description or '-'}}</td></tr>{% endfor %}</table></div>{% endblock %}

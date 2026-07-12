@@ -1,0 +1,17 @@
+
+{% extends "base.html" %}{% block title %}أكاديمية المودة{% endblock %}
+{% block content %}
+<section class="hero-public">
+  <div><span class="eyebrow">تعليم القرآن ونور البيان</span><h1>نتعلم بمحبة، ونرتقي بالقرآن</h1><p>حصص أونلاين وحضورية داخل مصر وخارجها، مع متابعة ولي الأمر وتقييم مستمر للطالب.</p>
+  <div class="hero-actions"><a class="btn" href="{{url_for('login')}}">دخول المنصة</a><a class="btn secondary" href="#contact">تواصل معنا</a></div></div>
+  <img src="{{url_for('static',filename='img/logo.png')}}" alt="أكاديمية المودة">
+</section>
+<section class="public-section"><h2>خدمات الأكاديمية</h2><div class="feature-grid">
+<div class="feature-card"><h3>تحفيظ القرآن</h3><p>خطط فردية وجماعية حسب مستوى الطالب.</p></div>
+<div class="feature-card"><h3>التجويد</h3><p>متابعة مخارج الحروف وأحكام التلاوة.</p></div>
+<div class="feature-card"><h3>نور البيان</h3><p>تأسيس الأطفال في القراءة الصحيحة.</p></div>
+<div class="feature-card"><h3>متابعة ولي الأمر</h3><p>تقارير حضور وتقييم وواجبات بعد الحصة.</p></div>
+</div></section>
+<section class="public-section"><h2>فريقنا</h2><div class="people-grid">{% for t in teachers %}<div class="person-card"><div class="avatar">{{t.user.full_name[:1]}}</div><h3>{{t.user.full_name}}</h3><p>{{t.specialization or 'معلم قرآن'}}</p></div>{% endfor %}</div></section>
+<section id="contact" class="public-section"><h2>تواصل معنا</h2><form method="post" class="form-grid panel"><label>الاسم<input name="full_name" required></label><label>رقم الهاتف أو واتساب<input name="phone" required></label><label>البريد<input type="email" name="email"></label><label class="full">رسالتك<textarea name="message" required></textarea></label><button class="btn">إرسال</button></form></section>
+{% endblock %}

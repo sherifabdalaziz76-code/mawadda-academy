@@ -1,0 +1,5 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><h1>الشكاوى</h1>{% if current_user.role=='parent' %}<a class="btn" href="{{url_for('complaint_new')}}">+ شكوى جديدة</a>{% endif %}</div>
+<div class="panel"><table><tr><th>الرقم</th><th>الطالب</th><th>المعلم</th><th>الموضوع</th><th>الأولوية</th><th>الحالة</th><th>إجراء</th></tr>
+{% for c in complaints %}<tr><td>{{c.complaint_no}}</td><td>{{c.student.full_name}}</td><td>{{c.teacher.user.full_name}}</td><td>{{c.subject}}</td><td>{{c.priority}}</td><td>{{c.status}}</td><td>{% if current_user.role in ['developer','manager'] %}<a class="btn small" href="{{url_for('complaint_manage',complaint_id=c.id)}}">إدارة</a>{% else %}{{c.admin_response or '-'}}{% endif %}</td></tr>{% else %}<tr><td colspan="7">لا توجد شكاوى.</td></tr>{% endfor %}</table></div>{% endblock %}

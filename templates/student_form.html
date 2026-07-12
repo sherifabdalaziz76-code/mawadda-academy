@@ -1,0 +1,9 @@
+
+{% extends "base.html" %}{% block content %}<div class="page-head"><h1>إضافة طالب</h1></div>
+<form method="post" enctype="multipart/form-data" class="form-grid panel">
+<div class="info-box">كود الطالب سيُنشأ تلقائيًا بدءًا من 100.</div><label>الاسم الكامل<input name="full_name" required></label>
+<label>تاريخ الميلاد<input type="date" name="birth_date"></label><label>النوع<select name="gender"><option>ذكر</option><option>أنثى</option></select></label>
+<label>الدولة<input name="country" value="مصر"></label><label>المستوى<input name="level"></label>
+<label>ولي الأمر<select name="parent_id" required>{% for p in parents %}<option value="{{p.id}}">{{p.user.full_name}}</option>{% endfor %}</select></label>
+<label class="full">ملاحظات<textarea name="notes"></textarea></label><label>الصورة<input type="file" name="photo" accept="image/*"></label><button class="btn">حفظ</button>
+</form>{% endblock %}

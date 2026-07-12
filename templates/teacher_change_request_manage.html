@@ -1,0 +1,5 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><div><h1>{{item.request_no}}</h1><p>{{item.student.full_name}} — المعلم الحالي: {{item.current_teacher.user.full_name}}</p></div></div>
+<div class="panel"><p><b>السبب:</b> {{item.reason}}</p><p><b>الأوقات المناسبة:</b> {{item.preferred_times or '-'}}</p></div>
+<form method="post" class="form-grid panel"><label>الحالة<select name="status"><option>جديد</option><option>قيد المراجعة</option><option>مقبول</option><option>مرفوض</option></select></label><label>المعلم الجديد<select name="approved_teacher_id"><option value="">بدون تحديد</option>{% for t in teachers %}<option value="{{t.id}}">{{t.user.full_name}}</option>{% endfor %}</select></label><label>تاريخ التنفيذ<input type="date" name="effective_date"></label><label class="full">ملاحظة الإدارة<textarea name="admin_note">{{item.admin_note or ''}}</textarea></label><button class="btn">حفظ القرار</button></form>{% endblock %}

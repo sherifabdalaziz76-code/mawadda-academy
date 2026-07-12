@@ -1,0 +1,17 @@
+{% extends 'base.html' %}{% block content %}
+<div class="page-head"><div><h1>تعديل بروفايل الطالب</h1><p>{{student.student_code}}</p></div></div>
+<form method="post" enctype="multipart/form-data" class="panel form-grid">
+<div style="grid-column:1/-1;display:flex;align-items:center;gap:16px">
+{% if student.photo %}<img src="{{url_for('uploaded_file',filename=student.photo)}}" style="width:110px;height:110px;border-radius:50%;object-fit:cover">{% else %}<div style="width:110px;height:110px;border-radius:50%;background:#eee;display:grid;place-items:center">بدون صورة</div>{% endif %}
+<label>صورة الطالب<input type="file" name="photo" accept="image/*"></label>
+{% if student.photo %}<label><input type="checkbox" name="remove_photo"> حذف الصورة الحالية</label>{% endif %}
+</div>
+<label>اسم الطالب<input name="full_name" value="{{student.full_name}}" required></label>
+<label>تاريخ الميلاد<input type="date" name="birth_date" value="{{student.birth_date or ''}}"></label>
+<label>النوع<select name="gender"><option value="ذكر" {% if student.gender=='ذكر' %}selected{% endif %}>ذكر</option><option value="أنثى" {% if student.gender=='أنثى' %}selected{% endif %}>أنثى</option></select></label>
+<label>الدولة<input name="country" value="{{student.country or ''}}"></label>
+<label>المستوى<input name="level" value="{{student.level or ''}}"></label>
+{% if current_user.role in ['developer','manager'] %}<label>ولي الأمر<select name="parent_id">{% for p in parents %}<option value="{{p.id}}" {% if p.id==student.parent_id %}selected{% endif %}>{{p.user.full_name}}</option>{% endfor %}</select></label>{% endif %}
+<label style="grid-column:1/-1">ملاحظات<textarea name="notes">{{student.notes or ''}}</textarea></label>
+<button class="btn">حفظ بروفايل الطالب</button>
+</form>{% endblock %}

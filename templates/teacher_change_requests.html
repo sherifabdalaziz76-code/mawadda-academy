@@ -1,0 +1,5 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><h1>طلبات تغيير المعلم</h1>{% if current_user.role=='parent' %}<a class="btn" href="{{url_for('teacher_change_request_new')}}">+ طلب جديد</a>{% endif %}</div>
+<div class="panel"><table><tr><th>الرقم</th><th>الطالب</th><th>المعلم الحالي</th><th>السبب</th><th>الحالة</th><th>المعلم المعتمد</th><th>إجراء</th></tr>
+{% for r in requests %}<tr><td>{{r.request_no}}</td><td>{{r.student.full_name}}</td><td>{{r.current_teacher.user.full_name}}</td><td>{{r.reason}}</td><td>{{r.status}}</td><td>{{r.approved_teacher.user.full_name if r.approved_teacher else '-'}}</td><td>{% if current_user.role in ['developer','manager'] %}<a class="btn small" href="{{url_for('teacher_change_request_manage',request_id=r.id)}}">إدارة</a>{% else %}{{r.admin_note or '-'}}{% endif %}</td></tr>{% else %}<tr><td colspan="7">لا توجد طلبات.</td></tr>{% endfor %}</table></div>{% endblock %}

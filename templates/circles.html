@@ -1,0 +1,4 @@
+
+{% extends "base.html" %}{% block content %}<div class="page-head"><h1>الحلقات</h1><div>{% if current_user.role in ['developer','manager'] %}<a class="btn secondary" href="{{url_for('enrollment_new')}}">ربط طالب</a> <a class="btn" href="{{url_for('circle_new')}}">+ حلقة</a>{% endif %}</div></div>
+<div class="panel"><table><tr><th>الحلقة</th><th>المعلم</th><th>النوع</th><th>مدة الحصة</th><th>الجدول</th><th>الطلاب</th></tr>
+{% for c in circles %}<tr><td>{{c.name}}</td><td>{{c.teacher.user.full_name}}</td><td>{{c.study_type}}</td><td>{{c.default_minutes}} دقيقة</td><td>{{c.schedule_text or '-'}}</td><td>{{c.enrollments|selectattr('active')|list|length}}</td></tr>{% endfor %}</table></div>{% endblock %}

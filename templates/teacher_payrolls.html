@@ -1,0 +1,4 @@
+
+{% extends "base.html" %}{% block content %}<div class="page-head"><h1>كشوف مستحقات المعلمين</h1>{% if current_user.role in ['developer','manager','accountant'] %}<a class="btn" href="{{url_for('teacher_payroll_new')}}">+ كشف جديد</a>{% endif %}</div>
+<div class="panel"><table><tr><th>الكشف</th><th>المعلم</th><th>الفترة</th><th>الإجمالي</th><th>إضافي</th><th>خصم</th><th>الصافي</th><th>الحالة</th><th>إجراء</th></tr>
+{% for p in payrolls %}<tr><td>{{p.payroll_no}}</td><td>{{p.teacher.user.full_name}}</td><td>{{p.period_from}} → {{p.period_to}}</td><td>{{p.gross_amount}}</td><td>{{p.bonuses}}</td><td>{{p.deductions}}</td><td>{{p.net_amount}} {{p.currency}}</td><td>{{p.status}}</td><td>{% if current_user.role in ['developer','manager','accountant'] and p.status!='مدفوع' %}<form method="post" action="{{url_for('teacher_payroll_pay',payroll_id=p.id)}}"><button class="btn small">دفع</button></form>{% else %}-{% endif %}</td></tr>{% endfor %}</table></div>{% endblock %}

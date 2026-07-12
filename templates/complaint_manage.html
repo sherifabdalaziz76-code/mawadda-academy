@@ -1,0 +1,5 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><div><h1>{{complaint.complaint_no}}</h1><p>{{complaint.student.full_name}} — {{complaint.teacher.user.full_name}}</p></div></div>
+<div class="panel"><h3>{{complaint.subject}}</h3><p>{{complaint.details}}</p></div>
+<form method="post" class="form-grid panel"><label>الحالة<select name="status"><option>جديدة</option><option>قيد المراجعة</option><option>تم التواصل</option><option>تم الحل</option><option>مغلقة</option></select></label><label class="full">رد الإدارة<textarea name="admin_response">{{complaint.admin_response or ''}}</textarea></label><button class="btn">حفظ وإشعار ولي الأمر</button></form>{% endblock %}

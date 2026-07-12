@@ -1,0 +1,10 @@
+{% extends 'base.html' %}{% block content %}
+<h1>تعديل المستخدم والبروفايل</h1>
+<form method="post" enctype="multipart/form-data" class="panel form-grid">
+<div style="grid-column:1/-1;display:flex;align-items:center;gap:16px">{% if user.photo %}<img src="{{url_for('uploaded_file',filename=user.photo)}}" style="width:90px;height:90px;border-radius:50%;object-fit:cover">{% else %}<div style="width:90px;height:90px;border-radius:50%;background:#eee;display:grid;place-items:center">بدون صورة</div>{% endif %}<label>الصورة الشخصية<input type="file" name="photo" accept="image/*"></label>{% if user.photo %}<label><input type="checkbox" name="remove_photo"> حذف الصورة</label>{% endif %}</div>
+<label>الاسم<input name="full_name" value="{{user.full_name}}" required></label><label>البريد الإلكتروني<input type="email" name="email" value="{{user.email}}" required></label><label>الهاتف<input name="phone" value="{{user.phone or ''}}"></label><label>واتساب<input name="whatsapp" value="{{user.whatsapp or ''}}"></label>
+{% if current_user.role in ['admin','developer'] %}<label>الدور<select name="role">{% for v,n in roles %}<option value="{{v}}" {% if user.role==v or (user.role=='developer' and v=='admin') %}selected{% endif %}>{{n}}</option>{% endfor %}</select></label>{% endif %}
+{% if user.teacher_profile %}<label>التخصص<input name="specialization" value="{{user.teacher_profile.specialization or ''}}"></label><label style="grid-column:1/-1">نبذة<textarea name="bio">{{user.teacher_profile.bio or ''}}</textarea></label>{% endif %}
+{% if user.parent_profile %}<label>الدولة<input name="country" value="{{user.parent_profile.country or ''}}"></label><label style="grid-column:1/-1">العنوان<textarea name="address">{{user.parent_profile.address or ''}}</textarea></label>{% endif %}
+<label>كلمة مرور جديدة<input type="password" name="new_password" placeholder="اختياري — اتركها فارغة بدون تغيير"></label>{% if current_user.role!='accountant' %}<label><input type="checkbox" name="is_active_user" {% if user.is_active %}checked{% endif %}> المستخدم نشط</label>{% endif %}<button class="btn">حفظ التعديلات</button>
+</form>{% endblock %}

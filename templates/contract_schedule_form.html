@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><div><h1>تعديل جدول الاتفاق</h1><p>{{contract.contract_no}} — {{contract.student.full_name}}</p></div></div>
+<form method="post" class="form-grid panel">
+<label>إجمالي حصص الاتفاق<input type="number" name="total_sessions" min="1" value="{{contract.total_sessions or 1}}" required></label>
+<label>عدد الحصص أسبوعيًا<input id="weekly_sessions" type="number" name="weekly_sessions" min="1" max="7" value="{{contract.weekly_sessions or 1}}" required></label>
+<div class="full panel"><h3>الأيام والأوقات</h3><div id="scheduleRows"></div></div>
+<button class="btn">حفظ الجدول</button><a class="btn secondary" href="{{url_for('contract_detail',contract_id=contract.id)}}">إلغاء</a>
+</form>
+<script>
+const days=['الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت','الأحد'];
+const saved={{ contract.schedule_slots|selectattr('active')|map(attribute='weekday')|list|tojson }}.map((d,i)=>({d:String(d),t:{{ contract.schedule_slots|selectattr('active')|map(attribute='start_time')|list|tojson }}[i]}));
+function draw(){const n=Math.max(1,Math.min(7,parseInt(document.getElementById('weekly_sessions').value||1)));const box=document.getElementById('scheduleRows');const old=[...box.querySelectorAll('.schedule-row')].map(r=>({d:r.querySelector('select').value,t:r.querySelector('input').value}));const vals=old.length?old:saved;box.innerHTML='';for(let i=0;i<n;i++){const v=vals[i]||{};const row=document.createElement('div');row.className='schedule-row';row.style='display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0';row.innerHTML=`<label>اليوم ${i+1}<select name="schedule_weekday" required>${days.map((d,x)=>`<option value="${x}" ${v.d==x?'selected':''}>${d}</option>`).join('')}</select></label><label>الوقت<input type="time" name="schedule_time" value="${v.t||''}" required></label>`;box.appendChild(row)}}
+document.getElementById('weekly_sessions').addEventListener('input',draw);draw();
+</script>{% endblock %}

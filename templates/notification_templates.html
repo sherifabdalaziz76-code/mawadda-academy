@@ -1,0 +1,4 @@
+
+{% extends "base.html" %}{% block content %}<div class="page-head"><h1>قوالب الإشعارات وواتساب</h1></div>
+<div class="panel"><table><tr><th>الكود</th><th>الاسم</th><th>القناة</th><th>النص</th><th>الحالة</th></tr>
+{% for t in templates %}<tr><td>{{t.code}}</td><td>{{t.name}}</td><td>{{t.channel}}</td><td>{{t.body}}</td><td>{% if t.active %}نشط{% else %}موقوف{% endif %}</td></tr>{% endfor %}</table></div>{% endblock %}

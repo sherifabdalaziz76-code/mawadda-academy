@@ -1,0 +1,6 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><div><h1>الطلاب</h1><p>ملفات الطلاب ومتابعتهم</p></div>{% if current_user.role in ['developer','manager'] %}<a class="btn" href="{{ url_for('student_new') }}">+ طالب جديد</a>{% endif %}</div>
+<div class="panel"><table><tr><th>الكود</th><th>الاسم</th><th>ولي الأمر</th><th>الدولة</th><th>المستوى</th></tr>
+{% for s in students %}<tr><td>{{ s.student_code }}</td><td><a href="{{ url_for('student_profile',student_id=s.id) }}">{{ s.full_name }}</a></td><td>{{ s.parent.user.full_name }}</td><td>{{ s.country }}</td><td>{{ s.level or '-' }}</td></tr>{% else %}<tr><td colspan="5">لا توجد بيانات.</td></tr>{% endfor %}
+</table></div>{% endblock %}

@@ -1,0 +1,7 @@
+
+{% extends "base.html" %}{% block content %}<div class="page-head"><div><h1>تسجيل دفعة</h1><p>{{contract.contract_no}} — {{contract.student.full_name}} — المتبقي {{contract.balance}} {{contract.currency}}</p></div></div>
+<form method="post" class="form-grid panel"><label>التاريخ<input type="date" name="payment_date" required></label>
+<label>المبلغ<input type="number" name="amount" step="0.01" min="0.01" max="{{contract.balance if contract.balance>0 else ''}}" required></label>
+<label>العملة<select name="currency"><option selected>{{contract.currency}}</option><option>EGP</option><option>USD</option><option>SAR</option><option>AED</option><option>KWD</option><option>QAR</option><option>EUR</option><option>GBP</option></select></label>
+<label>الخزنة<select name="cashbox_id"><option value="">بدون تسجيل بالخزنة</option>{% for b in cashboxes %}<option value="{{b.id}}">{{b.name}}</option>{% endfor %}</select></label><label>طريقة الدفع<select name="payment_method"><option>كاش</option><option>تحويل بنكي</option><option>InstaPay</option><option>فودافون كاش</option><option>بطاقة</option><option>PayPal</option><option>أخرى</option></select></label>
+<label>رقم المرجع<input name="reference_no"></label><label class="full">ملاحظات<textarea name="notes"></textarea></label><button class="btn">حفظ الدفعة</button></form>{% endblock %}

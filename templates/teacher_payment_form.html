@@ -1,0 +1,10 @@
+
+{% extends "base.html" %}{% block content %}<div class="page-head"><div><h1>تسجيل دفعة للمعلم</h1><p>{{teacher.user.full_name}} — كود {{teacher.employee_code}}</p></div></div>
+<form method="post" class="form-grid panel">
+<label>تاريخ الدفع<input type="date" name="payment_date" required></label>
+<label>المبلغ بالجنيه المصري<input type="number" step="0.01" min="0.01" name="amount" required></label>
+<label>من فترة<input type="date" name="period_from"></label><label>حتى فترة<input type="date" name="period_to"></label>
+<label>طريقة الدفع<select name="payment_method"><option>كاش</option><option>InstaPay</option><option>فودافون كاش</option><option>تحويل بنكي</option><option>محفظة إلكترونية</option><option>أخرى</option></select></label>
+<label>الخزنة<select name="cashbox_id"><option value="">بدون خصم من خزنة</option>{% for b in cashboxes %}<option value="{{b.id}}">{{b.name}}</option>{% endfor %}</select></label>
+<label>رقم العملية/المرجع<input name="reference_no"></label><label class="full">ملاحظات<textarea name="notes"></textarea></label>
+<button class="btn">حفظ الدفعة</button></form>{% endblock %}

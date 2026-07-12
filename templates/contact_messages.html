@@ -1,0 +1,4 @@
+
+{% extends "base.html" %}{% block content %}<div class="page-head"><h1>رسائل الموقع</h1></div>
+<div class="panel"><table><tr><th>التاريخ</th><th>الاسم</th><th>الهاتف</th><th>البريد</th><th>الرسالة</th><th>الحالة</th></tr>
+{% for m in messages %}<tr><td>{{m.created_at}}</td><td>{{m.full_name}}</td><td>{{m.phone}}</td><td>{{m.email or '-'}}</td><td>{{m.message}}</td><td>{{m.status}}</td></tr>{% else %}<tr><td colspan="6">لا توجد رسائل.</td></tr>{% endfor %}</table></div>{% endblock %}
